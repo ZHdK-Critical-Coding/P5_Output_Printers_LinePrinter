@@ -1,0 +1,29 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+  margin: 10px;  
+}
+
+textarea {
+  width: 230px;
+  height: 230px;
+  resize: none;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  box-sizing: border-box;
+  background: #000;
+  color: #FFF;
+  outline: none;
+}
+
+input,
+button {
+  display: block;
+  width: 230px;
+  margin: 10px;
+}
