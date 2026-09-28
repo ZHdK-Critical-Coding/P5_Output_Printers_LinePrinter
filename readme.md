@@ -1,37 +1,49 @@
-# WebSocket Drucker-Sender mit p5.js
+# P5.js: Line Printer
 
-Dieses Projekt zeigt, wie man mit **p5.js** Text an einen **WebSocket-fähigen Drucker** sendet.  
-Der Benutzer kann Text eingeben, Stil und Größe festlegen und über einen Button an den Drucker senden.
+[Deutsch](README_DE.md)
 
-## Features
+Sends text, paper-feed commands and the canvas as a bitmap to a printer
+server over WebSocket. Text can be printed bold, underlined, wide or double
+height. A starting point for printing from a sketch, line by line.
 
-- Verbindung zu einem WebSocket-Drucker herstellen
-- Text mit verschiedenen Stiloptionen senden:
-  - Unterstrichen (u)
-  - Fett + Unterstrichen (bu)
-  - Fett (b)
-- Textbreite (normal oder breit) und Höhe (normal oder doppelt) anpassen
-- Anzeige des Druckerstatus im Browser
-- Benutzeroberfläche mit Textarea und Druck-Button
+## Installation
 
-## Voraussetzungen
+Requirements: a printer server that accepts WebSocket connections and
+answers with `ok` (or `printed_image`), reachable from your computer's
+network.
 
-- Browser mit WebSocket-Unterstützung
-- Ein Drucker oder Server, der WebSocket-Verbindungen akzeptiert und JSON-Textdaten verarbeitet
+1. Make sure the printer server is running.
+2. Set `printerConnection` in `sketch.js` to the server address (default
+   `ws://10.21.12.76:8090`).
+3. Open the folder in Visual Studio Code and start Live Server (click
+   **Go Live** in the status bar).
+4. Type into the text field and click **Print Text**. **Print Bitmap**
+   prints the canvas, the arrow buttons feed the paper by the number of
+   steps in the input field.
 
-## Verwendung
+The connection status is shown on the canvas.
 
-- Öffne die HTML-Seite im Browser.
-- Gib den gewünschten Text in die Textarea ein.
-- Klicke auf **Print**, um den Text an den Drucker zu senden.
-- Der Status des Druckers wird oben im Canvas angezeigt.
+Libraries (in `libraries/`): p5.js 1.10.0, p5.sound 1.0.1 (included, not used).
 
-## Beispiel
+License: MIT
 
-- 🖨️ Text wird in fett + unterstrichen auf dem Drucker ausgegeben
-- 🔠 Breite und Höhe des Textes können angepasst werden
-- ⚡ Echtzeit-Statusanzeige über WebSocket
+## Coding Help
 
-## Lizenz
-
-MIT License
+- **`sketch.js` → `printerConnection`**: WebSocket address of the printer
+  server.
+- **`communicateWithPrinter()`**: sends data and returns a Promise that
+  resolves when the server answers `ok` or `printed_image`. Other answers
+  are ignored, so the Promise then never resolves.
+- **`sendText(text, w, h, style)`**: sends
+  `{ text, w, h, style }` as JSON. `w` 0/1 = normal/wide, `h` 0/1 =
+  normal/double height, `style` `'b'` bold, `'u'` underlined, `'bu'` both.
+  Not every combination works on every printer.
+- **`paperFeed(direction, steps)`**: sends `{ direction, steps }` with
+  `'up'` or `'down'`. One step is a micro-feed unit, often 1/203 inch.
+- **`printBitmap()`**: converts the canvas to a PNG with `canvas.toBlob()`
+  and sends it as binary data.
+- **`setup()`**: opens the WebSocket and creates the text field and
+  buttons. The commented-out `sendText()` calls in the **Print Text**
+  handler show the other styles.
+- **`draw()`**: draws a grid and the connection status – this is also what
+  **Print Bitmap** prints.
