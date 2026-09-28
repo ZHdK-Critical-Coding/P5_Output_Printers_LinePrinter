@@ -8,20 +8,24 @@ height. A starting point for printing from a sketch, line by line.
 
 ## Installation
 
-Requirements: a printer server that accepts WebSocket connections and
-answers with `ok` (or `printed_image`), reachable from your computer's
-network.
-
-Set `printerConnection` in `sketch.js` to the server address (default
-`ws://10.21.12.76:8090`).
-
 Libraries (in `libraries/`): p5.js 1.10.0, p5.sound 1.0.1 (included, not used).
 
 License: MIT
 
+## Server
+
+Needs `lp-websockets` from
+[Servers_RaspberriPi](https://github.com/ZHdK-Critical-Coding/Servers_RaspberriPi)
+(WebSocket, port 8090), running on a Raspberry Pi with an ESC/P line
+printer on USB, in the same network as your computer. Start it first with
+`bash run.sh` (or `node printer.js`) in its folder. It prints text, feeds
+the paper and prints images, answering with `ok` (or `printed_image`). Set
+`printerConnection` in `sketch.js` to its address (default
+`ws://10.21.12.76:8090`).
+
 ## How to Run
 
-1. Make sure the printer server is running.
+1. Make sure the printer server is running (see Server).
 2. Open the folder in Visual Studio Code and start Live Server (click
    **Go Live** in the status bar).
 3. Type into the text field and click **Print Text**. **Print Bitmap**
