@@ -2,5 +2,6 @@ name: "Line Printer"
 date: 2026-09-16
 author: Urs Hofer
 technology: "P5.js"
+maincategory: code-samples
 category: output
 related: Servers_RaspberriPi
